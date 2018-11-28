@@ -47,10 +47,9 @@ public class RumahSakit {
     /**
      * Fungsi untuk menyimpan data dari array list masuk ke database
      */
-    
-    public boolean isDokterExist(Dokter dokter){
+    public boolean isDokterExist(Dokter dokter) {
         boolean result = false;
-         try {
+        try {
             // buat kelas database
             MyOracle ora = new MyOracle("172.23.9.185", "1521", "orcl",
                     MyOracle.USER_NAME, MyOracle.PASSWORD);
@@ -60,19 +59,22 @@ public class RumahSakit {
             Statement statement = con.createStatement();
             // buat query
             // SELECT id_dokter,nama from puspa.dokter 
-            String query = "SELECT id_dokter,nama from dokter where id_dokter ='"+dokter.getIdDokter()+"'";
+            String query = "SELECT id_dokter,nama from dokter where id_dokter ='" + dokter.getIdDokter() + "'";
             // kosongkan list 
             setDaftarDokter(new ArrayList<Dokter>());
             // jalankan/eksekusi queri
             ResultSet rs = statement.executeQuery(query);
             rs.next();
-            result=true;
+            if (rs.isFirst()) {
+                result = true;
+            }
             con.close();
         } catch (SQLException ex) {
             Logger.getLogger(RumahSakit.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }
+
     public void simpanDataDokter() {
         try {
             // buat kelas database
